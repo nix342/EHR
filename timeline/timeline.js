@@ -96,13 +96,6 @@ function renderTimeLine() {
         .extent([lDate, rDate])
         .on("brush", brushed);
 
-
-
-    //Declaring the drag for the scrubber
-    var drag = d3.behavior.drag()
-        .on("dragstart", scrubstart)
-        .on("drag", scrub);
-
     var vDrag = d3.behavior.drag()
         .on("drag", scrolldrag);
 
@@ -134,7 +127,7 @@ function renderTimeLine() {
         .tickPadding(13);
 
     var xaxis2 = d3.svg.axis()
-        .scale(x2)
+        .scale(x)
         .orient("bottom")
         .tickPadding(3)
         .tickSize(1);
@@ -144,6 +137,14 @@ function renderTimeLine() {
         .orient("top")
         .tickSize(0)
         .tickPadding(3);
+
+    // top of chart
+    chart.append("rect")
+        .attr("x", -10)
+        .attr("y", -10)
+        .attr("width", w + 175)
+        .attr("height", 67)
+        .attr("fill", "white");
 
     //Append the x-axis to the chart
     chart.append("g").attr("class", "x axis")
@@ -158,9 +159,12 @@ function renderTimeLine() {
         .attr("transform", "translate(0, " + (h - 55) + ")")
         .call(xaxis2);
 
-
-
-
+    chart.append("g").attr("class", "xaxis2")
+        .attr("transform", "translate(-20, 50)")
+        .attr("fill", "rgba(67,67,67,.5)")
+        .attr("font-size", "12px")
+        .call(xaxis3);
+        
     //Variable to create the timeline bars
     var medicines = chart.selectAll(".medicineGroup").data(data).enter().append('g').classed("medicineGroup", true)
         .attr('transform', function (d, i) { return 'translate(-20,' + (y(i)) + ')' });
@@ -272,21 +276,6 @@ function renderTimeLine() {
     //selected by the it while dragging
     scrubber = chart.append("g");
 
-    //Creates the draggable rectangle
-    scrubber.append("rect")
-        .attr("class", "scrubber")
-        .attr("x", w - 22)
-        .attr("width", "1000px")
-        .attr("y", 55)
-        .attr("height", h - 80)
-        .attr("fill", "#ffffff")
-        .attr("fill-opacity", .9)
-        .attr("cursor", "move")
-        .attr("stroke", "#c7c7c7")
-        .attr("stroke-width", 1)
-        .attr("stroke-dasharray", [0, 800 + (h - 80) + 800, h - 80])
-        .call(drag);
-
     //Append text above the line
     var todayLineText = chart.append("g");
 
@@ -302,6 +291,7 @@ function renderTimeLine() {
 
 
 
+    // line on right side of chart
     chart.append("rect")
         .attr("x", 1119)
         .attr("width", 1)
@@ -309,19 +299,21 @@ function renderTimeLine() {
         .attr("height", h - 20)
         .attr("stroke", "#EEEEEE");
 
+    // right side margin        
     chart.append("rect")
         .attr("x", 1120)
         .attr("width", 50)
         .attr("y", -10)
         .attr("height", h + 48)
-        .attr("fill", "white");
+        .attr("fill", "red");
 
+    // pivot area
     chart.append("rect")
         .attr("x", 0)
         .attr("width", 110)
         .attr("y", 0)
         .attr("height", 55)
-        .attr("fill", "white");
+        .attr("fill", "yellow");
 
     //This function updates the timeline bars when zooming or dragging based on the
     //x-axis and redraws them
@@ -348,79 +340,6 @@ function renderTimeLine() {
             });
         });
     }
-
-    //This function sets the scrub offset on start of drag
-    function scrubstart(d) {
-        scruboffset = 0;
-    }
-
-    //This allows to move the scrubber over the bars and sets the extent to which it can
-    //be dragged
-    function scrub(d) {
-        //console.log(d3.event.dy);
-        if (d3.event.x - scruboffset >= 1080)
-            scrubber.select(".scrubber").attr("x", 1080);
-        else if (d3.event.x - scruboffset <= 125)
-            scrubber.select(".scrubber").attr("x", 125);
-        else
-            scrubber.select(".scrubber").attr("x", d3.event.x - scruboffset);
-        //On dragging the scrubber updates the names of the drugs selected by it
-        updateOnScrub();
-    
-        //Updating yAxis labels of the timeline
-        updateYLabels();
-}
-
-    //Displays the drug names over the scrubber based on the time bars selected by it
-    updateOnScrub = function () {
-        var ind = 0;
-        scrubber.selectAll(".scrubDisplay").each(function (d, j) {
-            var scrubGroup = d3.select(this);
-
-            scrubGroup.selectAll(".displayLabel").attr("x", scrubber.select(".scrubber").attr("x") * 1 + 30)
-                .attr("fill", "none");
-
-            scrubGroup.selectAll(".displayDose").attr("x", scrubber.select(".scrubber").attr("x") * 1 + 125)
-                .attr("fill", "none");
-
-            //console.log(scrubGroup)
-            for (var i = 0; i < data[ind].dates.length; i++) {
-                if ((x.invert(1 * scrubber.select(".scrubber").attr("x") + 20) < data[ind].dates[i].enddate) &&
-                    (x.invert(1 * scrubber.select(".scrubber").attr("x") + 20) > data[ind].dates[i].startdate)) {
-
-                    scrubGroup.selectAll(".displayLabel").each(function (d) {
-                        d3.select(this)
-                            .attr("fill", "rgba(67,67,67,1)")
-                            .text(data[ind].label + " ");
-                    });
-
-                    scrubGroup.selectAll(".displayDose").each(function (d, j) {
-                        d3.select(this)
-                            .attr("fill", "rgba(67,67,67,1)")
-                            .text(data[ind].dates[i].dosage + data[ind].dates[i].dosage3 + data[ind].dates[i].dosage2);
-                    })
-                }
-            }
-            ind++;
-        });
-    };
-
-    //Changes the color of the yAxis labels based on the bars selected by the scrubber to
-    //indicate active and inactive medicines.
-    updateYLabels = function () {
-        var scrubberArray = [];
-        scrubberArray = scrubber.selectAll(".displayLabel")[0]; //Adds the bars selected by the scrubber to this array
-
-        var yLabelArray = d3.selectAll(".yAxisText")[0]; //Adds the yAxis text to this array
-
-        for (var k = 0; k < scrubberArray.length; k++) {
-            if (scrubberArray[k].attributes[1].value == "rgba(67,67,67,1)") {
-                d3.select(yLabelArray[k]).attr("fill", "rgba(67,67,67,1)");
-            } else {
-                d3.select(yLabelArray[k]).attr("fill", "rgba(67,67,67,.5)");
-            }
-        }
-    };
 
     //Gets the translation value of the scroll bar and allows for scrolling of the chart
     //in the vertical direction by calling the updateOnScroll function
@@ -560,7 +479,6 @@ function renderTimeLine() {
         chart.select("g.x.axis").call(xaxis);
         chart.select("g.xaxis2").call(xaxis3);
         updateBars();
-        updateOnScrub();
         updateTodayLine();
     }
 
@@ -573,7 +491,6 @@ function renderTimeLine() {
         chart.select("g.x.axis").call(xaxis);
         chart.select("g.xaxis2").call(xaxis3);
         updateBars();
-        updateOnScrub();
         updateTodayLine();
     }
 
