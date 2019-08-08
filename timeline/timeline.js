@@ -262,12 +262,8 @@ function renderTimeLine() {
         .attr("height", h + 50)
         .attr("fill", "white");
 
-    ////////////////////////////////////////////////////////////////////////////////
-
-    //Append text above the today line
-    var todayLineText = chart.append("g");
-
-    todayLineText.append("text")
+    // text above the today line
+    chart.append("g").append("text")
         .attr("class", "todayLineText")
         .attr("x", x(currDate) - 38)
         .attr("width", 10)
@@ -301,6 +297,8 @@ function renderTimeLine() {
         .attr("height", 55)
         .attr("fill", "white");
 
+    ////////////////////////////////////////////////////////////////////////////////
+
     //This function updates the timeline bars when zooming or dragging based on the
     //x-axis and redraws them
     function updateBars() {
@@ -326,41 +324,6 @@ function renderTimeLine() {
             });
         });
     }
-
-    //Gets the translation value of the scroll bar and allows for scrolling of the chart
-    //in the vertical direction by calling the updateOnScroll function
-    function scrolldrag(d) {
-        var yVal = scrollBar.select(".vScroller").attr("y") * 1 + d3.event.dy;
-        if (yVal < 55)
-            yVal = 55;
-        else if (yVal > (593 - scrollBar.select(".vScroller").attr("height") * 1))
-            yVal = (593 - scrollBar.select(".vScroller").attr("height") * 1);
-        var deltaY = scrollBar.select(".vScroller").attr("y") * 1 - yVal;
-        scrollBar.select(".vScroller").attr("y", yVal);
-        updateOnScroll(deltaY);
-    };
-
-    //Updates the position of the labels on the left, on the scrubber and the drags the chart
-    //when the scroll bar is dragged
-    updateOnScroll = function (yVal) {
-        chart.selectAll(".medicineGroup").each(function (d, j) {
-            var tranStr = d3.select(this).attr("transform");
-            if (tranStr != null)
-                tranStr = tranStr.substring(14, tranStr.length - 1);
-            else
-                tranStr = 0;
-            d3.select(this).attr('transform', 'translate(-20,' + (tranStr * 1 + yVal) + ')');
-        });
-
-        yAxisLabel.selectAll(".yAxisText").each(function (d, j) {
-            var labelStr = d3.select(this).attr("transform");
-            if (labelStr != null)
-                labelStr = labelStr.substring(13, labelStr.length - 1);
-            else
-                labelStr = 0;
-            d3.select(this).attr('transform', 'translate(0, ' + (labelStr * 1 + yVal) + ')');
-        });
-    };
 
     //Allows dragging the chart and zooming along the x-axis and based on the zoom/drag moves the brush
     //to indicate the region of the timeline that is in focus
@@ -448,18 +411,6 @@ function renderTimeLine() {
         updateTodayLine();
     }
 
-    brushed();
-
-    brushFunc = function () {
-        x.domain(brush.extent());
-        barGroup.selectAll(".timeBars").attr("x", function (d) { return x(d.startdate); });
-        barGroup.attr("width", 5);
-        chart.select("g.x.axis").call(xaxis);
-        chart.select("g.xaxis2").call(xaxis3);
-        updateBars();
-        updateTodayLine();
-    }
-
     //Redraws the today line when zooming/dragging the timeline
     function updateTodayLine() {
         d3.select(".todayTriangle").attr("transform", "translate(" + (x(currDate) - 20) + ", 59)")
@@ -469,4 +420,6 @@ function renderTimeLine() {
         d3.select(".todayLineText").attr("x", x(currDate) - 38)
             .attr("width", 10);
     }
+
+    brushed();
 }
