@@ -305,59 +305,6 @@ function renderTimeLine() {
     context = chart.append("g")
         .attr("transform", "translate(0 , " + (m2[0] + 30) + ")");
 
-    //Appends a rectangular region to display the mini timeline
-    context.append("rect")
-        .attr("x", 126)
-        .attr("width", w + 40)
-        .attr("y", -5)
-        .attr("height", 60)
-        .attr("stroke", "#d9d9d9")
-        .attr("stroke-width", .75)
-        .attr("fill", "#ededed");
-
-    context.append("rect")
-        .attr("x", 115)
-        .attr("y", 55)
-        .attr("width", w + 100)
-        .attr("height", h2)
-        .attr("fill", "white");
-
-    //Appends a line indicating the current date in the context region
-    context.append("line")
-        .attr("class", "contextLine")
-        .attr("x1", x2(currDate))
-        .attr("x2", x2(currDate))
-        .attr("y1", -4)
-        .attr("y2", 54)
-        .attr("stroke-width", 1)
-        .attr("stroke", "black")
-        .attr("stroke-opacity", .5);
-
-    //Appends a brush over the context region
-    b = context.append("g")
-        .attr("class", "x brush");
-
-    //Adding visible left and right circle handles
-    var leftHandle = b.append("svg:circle")
-        .attr("r", 7)
-        .attr("cx", 150)
-        .attr("cy", 25);
-
-    var rightHandle = b.append("svg:circle")
-        .attr("r", 7)
-        .attr("cx", 175)
-        .attr("cy", 25);
-
-    //makes sure that dragging the circles (handles) calls the brush function... otherwise dragging is broken in that region.
-    b.call(brush);
-
-    b.selectAll("rect")
-        .attr("y", -4)
-        .attr("height", 58);
-
-    b.selectAll(".resize.e rect").attr("width", 25).attr("x", -5);
-    b.selectAll(".resize.w rect").attr("width", 25).attr("x", -5);
-
     chart.append("rect")
         .attr("x", 1119)
         .attr("width", 1)
@@ -610,13 +557,6 @@ function renderTimeLine() {
     //Allows brushing over the mini timeline and helps selecting a particular
     //section of the timeline
     function brushed() {
-        leftHandle.attr("cx", function () {
-            return x2(brush.extent()[0]) + 1;
-        });
-        rightHandle.attr("cx", function () {
-            return x2(brush.extent()[1]) - 1;
-        });
-
         x.domain(brush.extent());
         barGroup.selectAll(".timeBars").attr("x", function (d) { return x(d.startdate); });
         barGroup.attr("width", 5);
@@ -630,13 +570,6 @@ function renderTimeLine() {
     brushed();
 
     brushFunc = function () {
-        leftHandle.attr("cx", function () {
-            return x2(brush.extent()[0]) + 1;
-        });
-        rightHandle.attr("cx", function () {
-            return x2(brush.extent()[1]) - 1;
-        });
-
         x.domain(brush.extent());
         barGroup.selectAll(".timeBars").attr("x", function (d) { return x(d.startdate); });
         barGroup.attr("width", 5);
