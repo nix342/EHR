@@ -1,12 +1,10 @@
 var temp, temp1;
 function renderTimeLine() {
-    var group, barGroup, scruboffset = 0, scrubData, t1, scrubDisplay;
+    var group, barGroup;
 
     var m = [80, 160, 0, 80]; // top right bottom left
-    var m2 = [570, 160, 20, 80];
     var w = 1200 - m[1] - m[3]; // width    
     var h = 700 - m[0] - m[2]; // height
-    var h2 = 700 - m2[0] - m2[2];
 
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];				//Array to display the current month on the TodayLine
 
@@ -63,8 +61,6 @@ function renderTimeLine() {
 
     var currDate = new Date(2019, 7, 8); //Stores the current Date
 
-
-    var w1 = 1100 - 960; //calculate offset so that the today line (currDate) is aligned with the scrubber ( 1100 is the width of svg, 960 is the width being shown)
     rDate = new Date(2021, 0, 15);
     lDate.setTime(rDate.getTime() - (1000 * 60 * 60 * 24 * 365 * 2)); //2 years before the right date (note: that multiplication is calculating the # of miliseconds in 2 years
 
@@ -82,7 +78,6 @@ function renderTimeLine() {
 
     //Setting the Y-axis
     var y = d3.scale.linear().domain([0, 19]).range([75, h - 40]);
-    var y2 = d3.scale.linear().domain([0, data.length]).range([0, 48]);
 
     //Declaring the zoom behavior
     zoom = d3.behavior.zoom()
@@ -95,9 +90,6 @@ function renderTimeLine() {
         .x(x2)
         .extent([lDate, rDate])
         .on("brush", brushed);
-
-    var vDrag = d3.behavior.drag()
-        .on("drag", scrolldrag);
 
     //Creating the chart area
     var chart = d3.select('body').append("svg")
