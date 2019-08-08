@@ -1,6 +1,6 @@
 var temp, temp1;
 function renderTimeLine() {
-    var group, barGroup, context, scruboffset = 0, scrubData, t1, scrubDisplay;
+    var group, barGroup, scruboffset = 0, scrubData, t1, scrubDisplay;
 
     var m = [80, 160, 0, 80]; // top right bottom left
     var m2 = [570, 160, 20, 80];
@@ -151,7 +151,7 @@ function renderTimeLine() {
         .attr("font-size", "15px")
         .call(xaxis);
 
-    //Appends x-axis to the context area
+    //Appends x-axis to the chart area
     chart.append("g")
         .attr("class", "x axis")
         .attr("fill", "rgba(67,67,67,.5)")
@@ -300,10 +300,7 @@ function renderTimeLine() {
         .attr("font-size", "11px")
         .text("Today " + newDate);
 
-    //Variable to append a mini version of the timeline to allow brushing to select
-    //region one wants to view
-    context = chart.append("g")
-        .attr("transform", "translate(0 , " + (m2[0] + 30) + ")");
+
 
     chart.append("rect")
         .attr("x", 1119)
@@ -660,7 +657,6 @@ function renderTimeLine() {
             brush.extent([x2.invert(tx1), x2.invert(tx2)]);
             x.domain(brush.extent());
             brushed();
-            context.select('g.x.brush').call(brush);
         }
     }
 
