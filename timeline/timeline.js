@@ -9,7 +9,7 @@ function renderTimeLine() {
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];				//Array to display the current month on the TodayLine
 
     //Data array for the timeline
-    data = [{ "label": "chlorthalidone", "dates": [{ "startdate": new Date(2013, 8, 19), "enddate": new Date(2020, 8, 19), "strength": 16, "dosage": 25, "dosage2": "", "dosage3": " mg" }] },
+    var data = [{ "label": "chlorthalidone", "dates": [{ "startdate": new Date(2013, 8, 19), "enddate": new Date(2020, 8, 19), "strength": 16, "dosage": 25, "dosage2": "", "dosage3": " mg" }] },
     { "label": "Lipitor", "dates": [{ "startdate": new Date(2015, 5, 25), "enddate": new Date(2016, 6, 02), "strength": 1, "dosage": 20, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2016, 6, 02), "enddate": new Date(2017, 2, 08), "strength": 16, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
     { "label": "Norco", "dates": [{ "startdate": new Date(2017, 6, 14), "enddate": new Date(2020, 7, 14), "strength": 8, "dosage": 325, "dosage2": "", "dosage3": " mg" }] },
     { "label": "metoprolol", "dates": [{ "startdate": new Date(2018, 0, 19), "enddate": new Date(2020, 6, 01), "strength": 1, "dosage": 50, "dosage2": "", "dosage3": " mg" }] },
@@ -26,8 +26,8 @@ function renderTimeLine() {
     { "label": "terbinafine", "dates": [{ "startdate": new Date(2020, 4, 30), "enddate": new Date(2020, 6, 30), "strength": 16, "dosage": 250, "dosage2": "", "dosage3": " mg" }] }
     ];
 
-    x = d3.time.scale().range([126, w + 160]);		//X-axis 
-    x2 = d3.time.scale().range([126, w + 160]);		//X-axis in the scrubber region
+    var x = d3.time.scale().range([126, w + 160]);		//X-axis 
+    var x2 = d3.time.scale().range([126, w + 160]);		//X-axis in the scrubber region
 
     var startdates = [];									//Array to store the startdates
     var enddates = [];									//Array to store the enddates
@@ -40,9 +40,8 @@ function renderTimeLine() {
         }
     }
 
-    minDate = startdates[0]; //Variable to store the minimum Date
-    maxDate = enddates[0]; //Variable to store the maximum Date
-
+    var minDate = startdates[0]; //Variable to store the minimum Date
+    var maxDate = enddates[0]; //Variable to store the maximum Date
 
     //Loop to find out the min and max Date
     for (var i = 1; i < startdates.length; i++) {
@@ -64,17 +63,9 @@ function renderTimeLine() {
     rDate = new Date(2021, 0, 15);
     lDate.setTime(rDate.getTime() - (1000 * 60 * 60 * 24 * 365 * 2)); //2 years before the right date (note: that multiplication is calculating the # of miliseconds in 2 years
 
-
-    //Moves the small today's date line so that it lines up with the large today's date line.
-    //Only works for the date September, 18, 2013  ---> now August 8, 2019
-    var sudoMaxDate = maxDate;
-    sudoMaxDate.setMonth(sudoMaxDate.getMonth() + 3);
-    sudoMaxDate.setDate(sudoMaxDate.getDate() - 20);
-
     //Setting the domain of the x-axis
     x.domain([minDate, maxDate]);
-    x2.domain([minDate, sudoMaxDate]);
-
+    x2.domain([minDate, maxDate]);
 
     //Setting the Y-axis
     var y = d3.scale.linear().domain([0, 19]).range([75, h - 40]);
@@ -83,7 +74,6 @@ function renderTimeLine() {
     zoom = d3.behavior.zoom()
         .scaleExtent([.7, 1.3])
         .on("zoom", zoomed);
-
 
     //Declaring the brush
     brush = d3.svg.brush()
@@ -96,8 +86,6 @@ function renderTimeLine() {
         .classed("chart", true)
         .attr("width", w + m[1] + 50)
         .attr("height", h + m[0] + m[2]);
-
-
 
     //Appending a rectangular pane to the chart area
     var pane = chart.append("g");
@@ -118,18 +106,6 @@ function renderTimeLine() {
         .tickSize(h - 80)
         .tickPadding(13);
 
-    var xaxis2 = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .tickPadding(3)
-        .tickSize(1);
-
-    var xaxis3 = d3.svg.axis()
-        .scale(x)
-        .orient("top")
-        .tickSize(0)
-        .tickPadding(3);
-
     // top of chart
     chart.append("rect")
         .attr("x", -10)
@@ -144,19 +120,6 @@ function renderTimeLine() {
         .attr("font-size", "15px")
         .call(xaxis);
 
-    //Appends x-axis to the chart area
-    chart.append("g")
-        .attr("class", "x axis")
-        .attr("fill", "rgba(67,67,67,.5)")
-        .attr("transform", "translate(0, " + (h - 55) + ")")
-        .call(xaxis2);
-
-    chart.append("g").attr("class", "xaxis2")
-        .attr("transform", "translate(-20, 50)")
-        .attr("fill", "rgba(67,67,67,.5)")
-        .attr("font-size", "12px")
-        .call(xaxis3);
-        
     //Variable to create the timeline bars
     var medicines = chart.selectAll(".medicineGroup").data(data).enter().append('g').classed("medicineGroup", true)
         .attr('transform', function (d, i) { return 'translate(-20,' + (y(i)) + ')' });
@@ -328,13 +291,14 @@ function renderTimeLine() {
     //Allows dragging the chart and zooming along the x-axis and based on the zoom/drag moves the brush
     //to indicate the region of the timeline that is in focus
     function zoomed() {
-        //console.log(d3.event);
-        if (d3.event.scale == 1) {
+        // console.log(d3.event);
+        if (d3.event.scale === 1) {
             if (d3.event.sourceEvent.webkitMovementX != null) {
                 var dir = -d3.event.sourceEvent.webkitMovementX * .2;
                 var tx1 = x2(brush.extent()[0]) + dir;
                 var tx2 = x2(brush.extent()[1]) + dir;
                 //dir = d3.select(".extent").attr("x")*1+dir;
+
                 if (tx1 < 127) {
                     tx2 += 127 - tx1;
                     tx1 = 127;
@@ -406,7 +370,6 @@ function renderTimeLine() {
         barGroup.selectAll(".timeBars").attr("x", function (d) { return x(d.startdate); });
         barGroup.attr("width", 5);
         chart.select("g.x.axis").call(xaxis);
-        chart.select("g.xaxis2").call(xaxis3);
         updateBars();
         updateTodayLine();
     }
