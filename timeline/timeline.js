@@ -55,13 +55,13 @@ function renderTimeLine() {
     minDate = new Date(minDate.getFullYear(), 0, 1);
     maxDate = new Date(maxDate.getFullYear() + 1, 0, 1);
 
+    var today = new Date();
     var lDate = new Date(); //Variable to store the left date to set brush extent
     var rDate = new Date();	//Variable to store the right date to set brush extent 
 
-    var currDate = new Date(2019, 7, 8); //Stores the current Date
-
-    rDate = new Date(2021, 0, 15);
-    lDate.setTime(rDate.getTime() - (1000 * 60 * 60 * 24 * 365 * 2)); //2 years before the right date (note: that multiplication is calculating the # of miliseconds in 2 years
+    today.setTime(Date.now()); //Stores the current Date
+    rDate.setTime(today.getTime() + (1000 * 60 * 60 * 24 * 365 * 1)); //1 year after today
+    lDate.setTime(today.getTime() - (1000 * 60 * 60 * 24 * 365 * 1)); //1 year before today
 
     //Setting the domain of the x-axis
     x.domain([minDate, maxDate]);
@@ -138,7 +138,6 @@ function renderTimeLine() {
             .classed("timeBars", true)
             .attr("y", -10)
             .attr("height", 20)
-            //.attr("stroke", "white")
             .attr("fill", function (d) {
                 if (d.strength == 1) {
                     return "rgba(0,0,195,1)";
@@ -169,15 +168,13 @@ function renderTimeLine() {
 
     pane.call(zoom);
 
-    ////////////////////////////////////////////////////////////////////////////////
-
     var todayLine = chart.append("g"); //Appends a line indicatiin current date and month
 
     //Append triangle above the line
     todayLine.append("path")
         .attr("class", "todayTriangle")
         .attr("d", d3.svg.symbol().type("triangle-down"))
-        .attr("transform", "translate(" + (x(currDate) - 220) + ", 60)")
+        .attr("transform", "translate(" + (x(today) - 220) + ", 60)")
         .attr("fill", "#999999");
 
     todayLine.append("line")
@@ -187,11 +184,16 @@ function renderTimeLine() {
         .attr("stroke", "#999999")
         .attr("stroke-width", 2);
 
-    ////////////////////////////////////////////////////////////////////////////////
-
-    var day = currDate.getDate();
-    var month = currDate.getMonth();
-    var newDate = monthNames[month] + " " + day; //Stores the current date and month
+    // text above the today line
+    chart.append("g").append("text")
+        .attr("class", "todayLineText")
+        .attr("x", x(today) - 38)
+        .attr("width", 10)
+        .attr("y", 30)
+        .attr("height", 10)
+        .attr("fill", "black")
+        .attr("font-size", "11px")
+        .text("Today " + monthNames[today.getMonth()] + " " + today.getDate());
     
     //Append the drug names on the y-axis, left side
     var yAxisLabel = chart.append("g");
@@ -224,17 +226,6 @@ function renderTimeLine() {
         .attr("width", 115)
         .attr("height", h + 50)
         .attr("fill", "white");
-
-    // text above the today line
-    chart.append("g").append("text")
-        .attr("class", "todayLineText")
-        .attr("x", x(currDate) - 38)
-        .attr("width", 10)
-        .attr("y", 30)
-        .attr("height", 10)
-        .attr("fill", "black")
-        .attr("font-size", "11px")
-        .text("Today " + newDate);
 
     // line on right side of chart
     chart.append("rect")
@@ -376,11 +367,11 @@ function renderTimeLine() {
 
     //Redraws the today line when zooming/dragging the timeline
     function updateTodayLine() {
-        d3.select(".todayTriangle").attr("transform", "translate(" + (x(currDate) - 20) + ", 59)")
-        d3.select(".todayLine").attr("x1", x(currDate) - 20)
-            .attr("x2", x(currDate) - 20);
+        d3.select(".todayTriangle").attr("transform", "translate(" + (x(today) - 20) + ", 59)")
+        d3.select(".todayLine").attr("x1", x(today) - 20)
+            .attr("x2", x(today) - 20);
 
-        d3.select(".todayLineText").attr("x", x(currDate) - 38)
+        d3.select(".todayLineText").attr("x", x(today) - 38)
             .attr("width", 10);
     }
 
