@@ -272,11 +272,7 @@ function renderTimeLine() {
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    //Appends a draggable rectangle over the bars to display the names of the drugs
-    //selected by the it while dragging
-    scrubber = chart.append("g");
-
-    //Append text above the line
+    //Append text above the today line
     var todayLineText = chart.append("g");
 
     todayLineText.append("text")
@@ -288,8 +284,6 @@ function renderTimeLine() {
         .attr("fill", "black")
         .attr("font-size", "11px")
         .text("Today " + newDate);
-
-
 
     // line on right side of chart
     chart.append("rect")
@@ -305,7 +299,7 @@ function renderTimeLine() {
         .attr("width", 50)
         .attr("y", -10)
         .attr("height", h + 48)
-        .attr("fill", "red");
+        .attr("fill", "white");
 
     // pivot area
     chart.append("rect")
@@ -313,7 +307,7 @@ function renderTimeLine() {
         .attr("width", 110)
         .attr("y", 0)
         .attr("height", 55)
-        .attr("fill", "yellow");
+        .attr("fill", "white");
 
     //This function updates the timeline bars when zooming or dragging based on the
     //x-axis and redraws them
