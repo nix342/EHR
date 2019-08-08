@@ -201,7 +201,9 @@ function renderTimeLine() {
     });
 
     pane.call(zoom);
-    
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     var todayLine = chart.append("g"); //Appends a line indicatiin current date and month
 
     //Append triangle above the line
@@ -218,11 +220,13 @@ function renderTimeLine() {
         .attr("stroke", "#999999")
         .attr("stroke-width", 2);
 
+    ////////////////////////////////////////////////////////////////////////////////
+
     var day = currDate.getDate();
     var month = currDate.getMonth();
     var newDate = monthNames[month] + " " + day; //Stores the current date and month
-
-    //Append the drug names on the y-axis
+    
+    //Append the drug names on the y-axis, left side
     var yAxisLabel = chart.append("g");
 
     yAxisLabel.append("rect")
@@ -254,6 +258,7 @@ function renderTimeLine() {
         .attr("height", h + 50)
         .attr("fill", "white");
 
+    ////////////////////////////////////////////////////////////////////////////////
 
     //Appends a draggable rectangle over the bars to display the names of the drugs
     //selected by the it while dragging
@@ -274,45 +279,6 @@ function renderTimeLine() {
         .attr("stroke-dasharray", [0, 800 + (h - 80) + 800, h - 80])
         .call(drag);
 
-    //Appends text over the scrubber and initially makes them invisible
-    medicines.each(function (d, i) {
-        scrubDisplay = scrubber.append("g")
-            .attr("transform", this.attributes[1].value)
-            .classed("scrubDisplay", true);
-
-        scrubDisplay.append("text")
-            .attr("class", "displayLabel")
-            .attr("fill", "#000000")
-            .attr("width", "100px")
-            .attr("x", w + 50)
-            .attr("y", 3)
-            .attr("height", "20px")
-            .attr("font-size", "12px")
-            .attr("font-weight", "bold");
-
-        scrubDisplay.append("text")
-            .attr("class", "displayDose")
-            .attr("fill", "#000000")
-            .attr("width", "50px")
-            .attr("x", w + 115)
-            .attr("y", 3)
-            .attr("height", "20px")
-            .attr("font-size", "11px");
-    });
-
-    chart.append("rect")
-        .attr("x", -10)
-        .attr("y", -10)
-        .attr("width", w + 175)
-        .attr("height", 67)
-        .attr("fill", "white");
-
-    chart.append("g").attr("class", "xaxis2")
-        .attr("transform", "translate(-20, 50)")
-        .attr("fill", "rgba(67,67,67,.5)")
-        .attr("font-size", "12px")
-        .call(xaxis3);
-
     //Append text above the line
     var todayLineText = chart.append("g");
 
@@ -325,21 +291,6 @@ function renderTimeLine() {
         .attr("fill", "black")
         .attr("font-size", "11px")
         .text("Today " + newDate);
-
-    //A vertical scroll bar to scroll the chart vertically
-    // scrollBar=chart.append("g");
-
-    // scrollBar.append("rect")
-    //         .attr("class", "vScroller")
-    //         .attr("x", 1108)
-    //         .attr("width", 8)
-    //         .attr("y", 55)
-    //         .attr("height", (15/data.length)*515)
-    //         .attr("rx", 4)
-    //         .attr("ry", 4)
-    //         .attr("fill", "#AAA8A8")
-    //         .attr("cursor", "move")
-    //         .call(vDrag);
 
     //Variable to append a mini version of the timeline to allow brushing to select
     //region one wants to view
@@ -508,7 +459,10 @@ function renderTimeLine() {
             scrubber.select(".scrubber").attr("x", d3.event.x - scruboffset);
         //On dragging the scrubber updates the names of the drugs selected by it
         updateOnScrub();
-    }
+    
+        //Updating yAxis labels of the timeline
+        updateYLabels();
+}
 
     //Displays the drug names over the scrubber based on the time bars selected by it
     updateOnScrub = function () {
@@ -542,9 +496,6 @@ function renderTimeLine() {
             }
             ind++;
         });
-
-        //Updating yAxis labels of the timeline
-        updateYLabels();
     };
 
     //Changes the color of the yAxis labels based on the bars selected by the scrubber to
