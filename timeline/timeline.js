@@ -11,21 +11,21 @@ function renderTimeLine() {
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];				//Array to display the current month on the TodayLine
 
     //Data array for the timeline
-    data = [{ "label": "chlorthalidone", "dates": [{ "startdate": new Date(2006, 8, 19), "enddate": new Date(2013, 8, 19), "strength": 16, "dosage": 25, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "Lipitor", "dates": [{ "startdate": new Date(2008, 5, 25), "enddate": new Date(2009, 6, 02), "strength": 1, "dosage": 20, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2009, 6, 02), "enddate": new Date(2010, 2, 08), "strength": 16, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "Norco", "dates": [{ "startdate": new Date(2010, 6, 14), "enddate": new Date(2013, 7, 14), "strength": 8, "dosage": 325, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "metoprolol", "dates": [{ "startdate": new Date(2011, 0, 19), "enddate": new Date(2013, 6, 01), "strength": 1, "dosage": 50, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "clonazepam", "dates": [{ "startdate": new Date(2011, 1, 04), "enddate": new Date(2013, 4, 3), "strength": 8, "dosage": 1, "dosage2": " bid", "dosage3": " mg" }] },
-    { "label": "trazodone", "dates": [{ "startdate": new Date(2011, 1, 18), "enddate": new Date(2011, 4, 09), "strength": 1, "dosage": 50, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2011, 4, 09), "enddate": new Date(2011, 7, 12), "strength": 4, "dosage": 100, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2011, 7, 12), "enddate": new Date(2011, 10, 28), "strength": 8, "dosage": 150, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2011, 10, 28), "enddate": new Date(2012, 2, 12), "strength": 4, "dosage": 100, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "warfarin", "dates": [{ "startdate": new Date(2011, 4, 09), "enddate": new Date(2011, 10, 11), "strength": 8, "dosage": 7.5, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "lisonopril", "dates": [{ "startdate": new Date(2011, 8, 26), "enddate": new Date(2011, 11, 12), "strength": 4, "dosage": 10, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2011, 11, 12), "enddate": new Date(2012, 2, 05), "strength": 8, "dosage": 20, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "Nexium", "dates": [{ "startdate": new Date(2011, 9, 24), "enddate": new Date(2012, 4, 19), "strength": 16, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "Cymbalta", "dates": [{ "startdate": new Date(2012, 2, 24), "enddate": new Date(2012, 3, 06), "strength": 16, "dosage": 60, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "bupropion", "dates": [{ "startdate": new Date(2012, 3, 19), "enddate": new Date(2012, 4, 14), "strength": 1, "dosage": 150, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2012, 4, 14), "enddate": new Date(2012, 8, 10), "strength": 16, "dosage": 150, "dosage2": " bid", "dosage3": " mg" }] },
-    { "label": "nitroglycerin", "dates": [{ "startdate": new Date(2012, 6, 04), "enddate": new Date(2013, 6, 04), "strength": 8, "dosage": 0.4, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "pravastatin", "dates": [{ "startdate": new Date(2012, 6, 04), "enddate": new Date(2013, 6, 04), "strength": 8, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "varenicline", "dates": [{ "startdate": new Date(2013, 1, 22), "enddate": new Date(2013, 1, 25), "strength": 1, "dosage": 0.5, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2013, 1, 28), "enddate": new Date(2013, 4, 22), "strength": 16, "dosage": 1, "dosage2": "", "dosage3": " mg" }] },
-    { "label": "terbinafine", "dates": [{ "startdate": new Date(2013, 4, 30), "enddate": new Date(2013, 6, 30), "strength": 16, "dosage": 250, "dosage2": "", "dosage3": " mg" }] }
+    data = [{ "label": "chlorthalidone", "dates": [{ "startdate": new Date(2013, 8, 19), "enddate": new Date(2020, 8, 19), "strength": 16, "dosage": 25, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "Lipitor", "dates": [{ "startdate": new Date(2015, 5, 25), "enddate": new Date(2016, 6, 02), "strength": 1, "dosage": 20, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2016, 6, 02), "enddate": new Date(2017, 2, 08), "strength": 16, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "Norco", "dates": [{ "startdate": new Date(2017, 6, 14), "enddate": new Date(2020, 7, 14), "strength": 8, "dosage": 325, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "metoprolol", "dates": [{ "startdate": new Date(2018, 0, 19), "enddate": new Date(2020, 6, 01), "strength": 1, "dosage": 50, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "clonazepam", "dates": [{ "startdate": new Date(2018, 1, 04), "enddate": new Date(2020, 4, 3), "strength": 8, "dosage": 1, "dosage2": " bid", "dosage3": " mg" }] },
+    { "label": "trazodone", "dates": [{ "startdate": new Date(2018, 1, 18), "enddate": new Date(2018, 4, 09), "strength": 1, "dosage": 50, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2018, 4, 09), "enddate": new Date(2018, 7, 12), "strength": 4, "dosage": 100, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2018, 7, 12), "enddate": new Date(2018, 10, 28), "strength": 8, "dosage": 150, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2018, 10, 28), "enddate": new Date(2019, 2, 12), "strength": 4, "dosage": 100, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "warfarin", "dates": [{ "startdate": new Date(2018, 4, 09), "enddate": new Date(2018, 10, 11), "strength": 8, "dosage": 7.5, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "lisonopril", "dates": [{ "startdate": new Date(2018, 8, 26), "enddate": new Date(2018, 11, 12), "strength": 4, "dosage": 10, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2018, 11, 12), "enddate": new Date(2019, 2, 05), "strength": 8, "dosage": 20, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "Nexium", "dates": [{ "startdate": new Date(2018, 9, 24), "enddate": new Date(2019, 4, 19), "strength": 16, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "Cymbalta", "dates": [{ "startdate": new Date(2019, 2, 24), "enddate": new Date(2019, 3, 06), "strength": 16, "dosage": 60, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "bupropion", "dates": [{ "startdate": new Date(2019, 3, 19), "enddate": new Date(2019, 4, 14), "strength": 1, "dosage": 150, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2019, 4, 14), "enddate": new Date(2019, 8, 10), "strength": 16, "dosage": 150, "dosage2": " bid", "dosage3": " mg" }] },
+    { "label": "nitroglycerin", "dates": [{ "startdate": new Date(2019, 6, 04), "enddate": new Date(2020, 6, 04), "strength": 8, "dosage": 0.4, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "pravastatin", "dates": [{ "startdate": new Date(2019, 6, 04), "enddate": new Date(2020, 6, 04), "strength": 8, "dosage": 40, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "varenicline", "dates": [{ "startdate": new Date(2020, 1, 22), "enddate": new Date(2020, 1, 25), "strength": 1, "dosage": 0.5, "dosage2": "", "dosage3": " mg" }, { "startdate": new Date(2020, 1, 28), "enddate": new Date(2020, 4, 22), "strength": 16, "dosage": 1, "dosage2": "", "dosage3": " mg" }] },
+    { "label": "terbinafine", "dates": [{ "startdate": new Date(2020, 4, 30), "enddate": new Date(2020, 6, 30), "strength": 16, "dosage": 250, "dosage2": "", "dosage3": " mg" }] }
     ];
 
     x = d3.time.scale().range([126, w + 160]);		//X-axis 
@@ -61,16 +61,16 @@ function renderTimeLine() {
     var lDate = new Date(); //Variable to store the left date to set brush extent
     var rDate = new Date();	//Variable to store the right date to set brush extent 
 
-    var currDate = new Date(2013, 8, 18); //Stores the current Date
+    var currDate = new Date(2019, 7, 8); //Stores the current Date
 
 
     var w1 = 1100 - 960; //calculate offset so that the today line (currDate) is aligned with the scrubber ( 1100 is the width of svg, 960 is the width being shown)
-    rDate = new Date(2014, 0, 15);
+    rDate = new Date(2021, 0, 15);
     lDate.setTime(rDate.getTime() - (1000 * 60 * 60 * 24 * 365 * 2)); //2 years before the right date (note: that multiplication is calculating the # of miliseconds in 2 years
 
 
     //Moves the small today's date line so that it lines up with the large today's date line.
-    //Only works for the date September, 18, 2013
+    //Only works for the date September, 18, 2013  ---> now August 8, 2019
     var sudoMaxDate = maxDate;
     sudoMaxDate.setMonth(sudoMaxDate.getMonth() + 3);
     sudoMaxDate.setDate(sudoMaxDate.getDate() - 20);
@@ -201,6 +201,7 @@ function renderTimeLine() {
     });
 
     pane.call(zoom);
+    
     var todayLine = chart.append("g"); //Appends a line indicatiin current date and month
 
     //Append triangle above the line
