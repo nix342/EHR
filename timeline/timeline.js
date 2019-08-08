@@ -151,6 +151,14 @@ function renderTimeLine() {
         .attr("font-size", "15px")
         .call(xaxis);
 
+    //Appends x-axis to the context area
+    chart.append("g")
+        .attr("class", "x axis")
+        .attr("fill", "rgba(67,67,67,.5)")
+        .attr("transform", "translate(0, " + (h - 55) + ")")
+        .call(xaxis2);
+
+
 
 
     //Variable to create the timeline bars
@@ -313,51 +321,6 @@ function renderTimeLine() {
         .attr("width", w + 100)
         .attr("height", h2)
         .attr("fill", "white");
-
-    //Appends x-axis to the context area
-    context.append("g")
-        .attr("class", "x axis")
-        .attr("fill", "rgba(67,67,67,.5)")
-        .attr("transform", "translate(0, " + (h2 - 55) + ")")
-        .call(xaxis2);
-
-    //Creates the timeline bars in the context area
-    var contextBars = context.selectAll(".medicineGroup").data(data)
-        .enter().append("g")
-        .classed("contextBar", true)
-        .attr("transform", function (d, i) { return "translate(0, " + (y2(i)) + ")"; });
-
-    //Selects each medicine group and draws the reactangle for each drug
-    //based on the start date and end date in the data array
-    contextBars.each(function (d, i) {
-        var cGroup = d3.select(this);
-
-        cGroup.selectAll(".contextBars")
-            .data(d.dates)
-            .enter()
-            .append("rect")
-            .classed("cBars", true)
-            .attr("x", function (d) { return x2(d.startdate); })
-            .attr("width", function (d) { return x2(d.enddate) - x2(d.startdate); })
-            //.attr("y", -1)
-            .attr("y", 2)
-            .attr("height", 1)
-            //.attr("height", 3)
-            //.attr("stroke", "white")
-            .attr("fill", function (d) {
-                if (d.strength == 1) {
-                    return "rgba(0,0,195,1)";
-                } else if (d.strength == 4) {
-                    return "rgba(195,195,0,1)";
-                } else if (d.strength == 8) {
-                    return "rgba(0,195,0,1)";
-                } else if (d.strength == 16) {
-                    return "rgba(195,0,195,1)";
-                } else {
-                    return "rgba(195,0,0,1)";
-                }
-            });
-    });
 
     //Appends a line indicating the current date in the context region
     context.append("line")
