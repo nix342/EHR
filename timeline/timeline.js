@@ -3,7 +3,7 @@ function renderTimeLine() {
     var group, barGroup;
 
     var m = [80, 160, 0, 80]; // top right bottom left
-    var w = 1000 - m[1] - m[3]; // width    
+    var w = 800 - m[1] - m[3]; // width    
     var h = 600 - m[0] - m[2]; // height
     var min = 126;
 
@@ -83,22 +83,10 @@ function renderTimeLine() {
         .on("brush", brushed);
 
     //Creating the chart area
-    var chart = d3.select('body').append("svg")
+    var chart = d3.select('#nix-timeline').append("svg")
         .classed("chart", true)
         .attr("width", w + m[1] + 50)
         .attr("height", h + m[0] + m[2]);
-
-    //Appending a rectangular pane to the chart area
-    var pane = chart.append("g");
-
-    pane.append("rect")
-        .attr("class", "pane")
-        .attr("x", min)
-        .attr("width", w + 50)
-        .attr("y", 55)
-        .attr("height", h - 80)
-        .attr("stroke", "#EEEEEE")
-        .attr("stroke-width", 1);
 
     //Setting the x-axis
     var xaxis = d3.svg.axis()
@@ -167,7 +155,7 @@ function renderTimeLine() {
             .text(function (d) { return d.dosage + d.dosage2; });
     });
 
-    pane.call(zoom);
+    chart.call(zoom);
 
     var todayLine = chart.append("g"); //Appends a line indicatiin current date and month
 
