@@ -3,8 +3,9 @@ function renderTimeLine() {
     var group, barGroup;
 
     var m = [80, 160, 0, 80]; // top right bottom left
-    var w = 1200 - m[1] - m[3]; // width    
-    var h = 700 - m[0] - m[2]; // height
+    var w = 1000 - m[1] - m[3]; // width    
+    var h = 600 - m[0] - m[2]; // height
+    var min = 126;
 
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];				//Array to display the current month on the TodayLine
 
@@ -26,8 +27,8 @@ function renderTimeLine() {
     { "label": "terbinafine", "dates": [{ "startdate": new Date(2020, 4, 30), "enddate": new Date(2020, 6, 30), "strength": 16, "dosage": 250, "dosage2": "", "dosage3": " mg" }] }
     ];
 
-    var x = d3.time.scale().range([126, w + 160]);		//X-axis 
-    var x2 = d3.time.scale().range([126, w + 160]);		//X-axis in the scrubber region
+    var x = d3.time.scale().range([min, w + m[1]]);		//X-axis 
+    var x2 = d3.time.scale().range([min, w + m[1]]);		//X-axis in the scrubber region
 
     var startdates = [];									//Array to store the startdates
     var enddates = [];									//Array to store the enddates
@@ -92,7 +93,7 @@ function renderTimeLine() {
 
     pane.append("rect")
         .attr("class", "pane")
-        .attr("x", 126)
+        .attr("x", min)
         .attr("width", w + 50)
         .attr("y", 55)
         .attr("height", h - 80)
@@ -286,47 +287,27 @@ function renderTimeLine() {
         if (d3.event.scale === 1) {
             if (d3.event.sourceEvent.webkitMovementX != null) {
                 var dir = -d3.event.sourceEvent.webkitMovementX * .2;
-                var tx1 = x2(brush.extent()[0]) + dir;
-                var tx2 = x2(brush.extent()[1]) + dir;
-                //dir = d3.select(".extent").attr("x")*1+dir;
-
-                if (tx1 < 127) {
-                    tx2 += 127 - tx1;
-                    tx1 = 127;
-                }
-                if (tx2 > 1120) {
-                    tx1 += 1120 - tx2;
-                    tx2 = 1120;
-                }
-                d3.select(".extent").attr("x", tx1);
-                brush.extent([x2.invert(tx1), x2.invert(tx2)]);
-                x.domain(brush.extent());
-                brushed();
-
-                //zoom.translate([0,0]);
             } else {
                 var dir = -d3.event.translate[0] / 25;
-                var tx1 = x2(brush.extent()[0]) + dir;
-                var tx2 = x2(brush.extent()[1]) + dir;
-                //dir = d3.select(".extent").attr("x")*1+dir;
-
-                if (tx1 < 127) {
-                    tx2 += 127 - tx1;
-                    tx1 = 127;
-                }
-
-                if (tx2 > 1120) {
-                    tx1 += 1120 - tx2;
-                    tx2 = 1120;
-                }
-
-                d3.select(".extent").attr("x", tx1);
-                brush.extent([x2.invert(tx1), x2.invert(tx2)]);
-                x.domain(brush.extent());
-                brushed();
-
-                zoom.translate([0, 0]);
             }
+            var tx1 = x2(brush.extent()[0]) + dir;
+            var tx2 = x2(brush.extent()[1]) + dir;
+            //dir = d3.select(".extent").attr("x")*1+dir;
+
+            if (tx1 < min + 1) {
+                tx2 += min + 1 - tx1;
+                tx1 = min + 1;
+            }
+            if (tx2 > w + m[1]) {
+                tx1 += w + m[1] - tx2;
+                tx2 = w + m[1];
+            }
+            d3.select(".extent").attr("x", tx1);
+            brush.extent([x2.invert(tx1), x2.invert(tx2)]);
+            x.domain(brush.extent());
+            brushed();
+
+            zoom.translate([0,0]);
         } else {
             var zScale = d3.event.scale;
             var mid = (x2(brush.extent()[1]) - x2(brush.extent()[0])) / 2 + x2(brush.extent()[0]);
@@ -335,12 +316,12 @@ function renderTimeLine() {
             var ts1 = mid - zWidth / 2;
             var ts2 = mid + zWidth / 2;
 
-            if (zWidth > x2(minDate.setMonth(minDate.getMonth() + 1)) - 126) {
-                if (ts1 < 127)
-                    ts1 = 127;
+            if (zWidth > x2(minDate.setMonth(minDate.getMonth() + 1)) - min) {
+                if (ts1 < min + 1)
+                    ts1 = min + 1;
 
-                if (ts2 > 1120)
-                    ts2 = 1120;
+                if (ts2 > w + m[1])
+                    ts2 = w + m[1];
 
                 d3.select(".extent").attr("x", ts1);
                 d3.select(".extent").attr("width", zWidth);
