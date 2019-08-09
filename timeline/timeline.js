@@ -95,14 +95,6 @@ function renderTimeLine() {
         .tickSize(h - 80)
         .tickPadding(13);
 
-    // top of chart
-    chart.append("rect")
-        .attr("x", -10)
-        .attr("y", -10)
-        .attr("width", w + 175)
-        .attr("height", 67)
-        .attr("fill", "white");
-
     //Append the x-axis to the chart
     chart.append("g").attr("class", "x axis")
         .attr("transform", "translate(-20, " + (h - 25) + ")")
@@ -174,12 +166,9 @@ function renderTimeLine() {
         .attr("stroke-width", 2);
 
     // text above the today line
-    chart.append("g").append("text")
+    todayLine.append("text")
         .attr("class", "todayLineText")
-        .attr("x", x(today) - 38)
-        .attr("width", 10)
         .attr("y", 30)
-        .attr("height", 10)
         .attr("fill", "black")
         .attr("font-size", "11px")
         .text("Today " + monthNames[today.getMonth()] + " " + today.getDate());
@@ -193,8 +182,8 @@ function renderTimeLine() {
         .attr("y", 54)
         .attr("width", 125)
         .attr("height", h + 50)
-        .attr("stroke", "white")
-        .attr("fill", "white");
+        .attr("stroke", "yellow")
+        .attr("fill", "blue");
 
     medicines.each(function (d, i) {
         yAxisLabel.append("text")
@@ -208,37 +197,6 @@ function renderTimeLine() {
             .attr("font-size", "12px")
             .text(d.label);
     });
-
-    yAxisLabel.append("rect")
-        .attr("x", 0)
-        .attr("y", 590)
-        .attr("width", 115)
-        .attr("height", h + 50)
-        .attr("fill", "white");
-
-    // line on right side of chart
-    chart.append("rect")
-        .attr("x", 1119)
-        .attr("width", 1)
-        .attr("y", 55)
-        .attr("height", h - 20)
-        .attr("stroke", "#EEEEEE");
-
-    // right side margin        
-    chart.append("rect")
-        .attr("x", 1120)
-        .attr("width", 50)
-        .attr("y", -10)
-        .attr("height", h + 48)
-        .attr("fill", "white");
-
-    // pivot area
-    chart.append("rect")
-        .attr("x", 0)
-        .attr("width", 110)
-        .attr("y", 0)
-        .attr("height", 55)
-        .attr("fill", "white");
 
     ////////////////////////////////////////////////////////////////////////////////
 
