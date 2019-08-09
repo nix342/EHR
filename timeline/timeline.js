@@ -284,15 +284,15 @@ function renderTimeLine() {
     //to indicate the region of the timeline that is in focus
     function zoomed() {
         // console.log(d3.event);
-        if (d3.event.scale === 1) {
+        if (d3.event.scale === 1) { // dragging
             if (d3.event.sourceEvent.webkitMovementX != null) {
                 var dir = -d3.event.sourceEvent.webkitMovementX * .2;
             } else {
                 var dir = -d3.event.translate[0] / 25;
             }
+
             var tx1 = x2(brush.extent()[0]) + dir;
             var tx2 = x2(brush.extent()[1]) + dir;
-            //dir = d3.select(".extent").attr("x")*1+dir;
 
             if (tx1 < min + 1) {
                 tx2 += min + 1 - tx1;
